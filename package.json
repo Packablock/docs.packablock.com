@@ -1,0 +1,10 @@
+{
+  "name": "docs-packablock-com",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "bundle exec jekyll build",
+    "serve": "bundle exec jekyll serve --port 4000",
+    "caddy": "caddy run --config Caddyfile"
+  }
+}
