@@ -208,6 +208,19 @@ body {
     }
   }
 
+  // High-contrast syntax highlighting overrides for clean light mode
+  .highlight {
+    .c, .c1, .ch, .cm, .cpf { color: #57606a !important; font-style: italic; } // Comments (Darker Muted Slate)
+    .k, .kd, .kn, .kp, .kr, .kt, .kv { color: #0550ae !important; font-weight: 600; } // Keywords (Deep Indigo)
+    .s, .s1, .s2, .sb, .sc, .sd, .sh, .si, .sx, .sr, .ss { color: #0a3069 !important; font-weight: 500; } // Strings (Deep Navy/Blue-Green)
+    .dl { color: #0a3069 !important; } // Delimiters
+    .nx, .na, .nb, .bp { color: #1e293b !important; } // Names / Identifiers (Slate-800)
+    .o, .p { color: #334155 !important; font-weight: 500; } // Operators & Punctuation
+    .m, .mb, .mf, .mh, .mi, .mo, .il { color: #cf222e !important; } // Numbers (Bright High-Contrast Red)
+    .kc, .kd { color: #cf222e !important; font-weight: 600; } // Constants
+    .nt { color: #0550ae !important; } // Tag name (HTML/XML)
+  }
+
   blockquote {
     border-left: 4px solid #0E9AA8;
     padding-left: 20px;
