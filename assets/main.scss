@@ -174,31 +174,32 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
+    width: 24px;
     height: 24px;
     background-color: var(--cursor-bg);
-    border-radius: 3px;
-    margin-right: 4px;
+    border-radius: 4px;
+    margin-right: 8px;
     vertical-align: middle;
     transition: background-color 0.2s ease, transform 0.15s ease;
 
     .candlestick-svg {
       width: 16px;
-      height: 24px;
+      height: 16px;
       display: block;
 
       line {
-        stroke-linecap: square;
-        stroke-width: 2px;
+        stroke: var(--icon-shadow);
         transition: stroke 0.2s ease;
       }
 
-      .candlestick-cap {
-        stroke: var(--icon-shadow);
+      circle {
+        fill: var(--icon-shadow);
+        transition: fill 0.2s ease;
       }
 
-      .candlestick-stick {
-        stroke: var(--icon-bg);
+      rect {
+        fill: var(--icon-bg);
+        transition: fill 0.2s ease;
       }
     }
   }
@@ -211,11 +212,14 @@ body {
       background-color: var(--cursor-hover-bg);
 
       .candlestick-svg {
-        .candlestick-cap {
+        line {
           stroke: var(--icon-hover-shadow);
         }
-        .candlestick-stick {
-          stroke: var(--icon-hover-bg);
+        circle {
+          fill: var(--icon-hover-shadow);
+        }
+        rect {
+          fill: var(--icon-hover-bg);
         }
       }
     }
