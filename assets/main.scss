@@ -97,14 +97,12 @@ body {
   .github-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background-color: $dark-navy; // Brand Navy
-    color: #FFFFFF !important;
-    font-size: 0.8125rem;
-    font-weight: 600;
+    gap: 10px;
+    padding: 4px 10px;
+    background-color: rgba(14, 27, 46, 0.05); // Light brand navy background
+    border: 1px solid rgba(14, 27, 46, 0.08);
     border-radius: 6px;
-    transition: background-color 0.2s ease, transform 0.15s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
     margin-left: 20px;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -112,16 +110,53 @@ body {
     border-bottom: none !important;
     vertical-align: middle;
 
+    .github-badge-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $dark-navy;
+      transition: color 0.2s ease;
+    }
+
     .github-icon {
-      width: 14px;
-      height: 14px;
+      width: 20px;
+      height: 20px;
       fill: currentColor;
     }
 
+    .github-badge-text {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      line-height: 1.25;
+    }
+
+    .github-badge-title {
+      font-size: 0.625rem;
+      font-weight: 500;
+      color: #64748B; // Muted slate
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .github-badge-repo {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $dark-navy;
+      transition: color 0.2s ease;
+    }
+
     &:hover {
-      background-color: #0E9AA8 !important; // Deep Teal
-      color: #FFFFFF !important;
+      background-color: rgba(14, 154, 168, 0.08) !important; // Light teal background
+      border-color: rgba(14, 154, 168, 0.2);
       transform: translateY(-1px);
+
+      .github-badge-icon {
+        color: #0E9AA8;
+      }
+      .github-badge-repo {
+        color: #0E9AA8;
+      }
     }
 
     &:active {
