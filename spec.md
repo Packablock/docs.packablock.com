@@ -71,11 +71,8 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-1-no-attestation]
 
-### 
 
-### 
 
-### 
 
 ### **Use Case 2: Validate Continuous Attestation Artifacts**
 
@@ -90,7 +87,6 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-2-validate-ca-artifacts]
 
-### 
 
 ### **Use Case 3: Package Manager Verification**
 
@@ -105,7 +101,6 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-3-package-manager-verification]
 
-## 
 
 ### **Use Case 4: The CI/CD/CA Builder Pipeline**
 
@@ -332,36 +327,40 @@ A **Content Block** represents the raw or semantic changes made to a tracked man
 
 This strategy captures precise, structured changes to package dependencies. It is highly readable by automated systems and AI agents.
 
-`# Document 1: Content Block (Semantic Diff Payload)`  
-`subject: package-lock.json`  
-`diff_strategy: semantic`  
-`event: update`  
-`changes:`  
-  `upgraded:`  
-    `- name: lodash`  
-      `from: 4.17.21`  
-      `to: 4.17.22`  
-  `added:`  
-    `- name: ms`  
-      `version: 2.1.3`  
-  `removed: []`
+```yaml
+# Document 1: Content Block (Semantic Diff Payload)
+subject: package-lock.json
+diff_strategy: semantic
+event: update
+changes:
+  upgraded:
+    - name: lodash
+      from: 4.17.21
+      to: 4.17.22
+  added:
+    - name: ms
+      version: 2.1.3
+  removed: []
 
+```
 ### **3.3.2 Line-Based Diff Strategy Example**
 
 This strategy records raw line-level changes, matching the classic unified patch layout seen in version control tools. It MUST use a **YAML Literal Block Scalar (`|`)** to guarantee the preservation of line endings and whitespace for exact cryptographic hashing.
 
-`# Document 1: Content Block (Line-Based Diff Payload)`  
-`subject: package-lock.json`  
-`diff_strategy: line`  
-`patch: |`  
-  `--- package-lock.json`  
-  `+++ package-lock.json`  
-  `@@ -4,4 +4,4 @@`  
-   `"dependencies": {`  
-  `-  "lodash": "4.17.21"`  
-  `+  "lodash": "4.17.22"`  
-   `}`
+```yaml
+# Document 1: Content Block (Line-Based Diff Payload)
+subject: package-lock.json
+diff_strategy: line
+patch: |
+  --- package-lock.json
+  +++ package-lock.json
+  @@ -4,4 +4,4 @@
+   "dependencies": {
+  -  "lodash": "4.17.21"
+  +  "lodash": "4.17.22"
+   }
 
+```
 ## **3.4 Validation Block Schema and Example**
 
 Every Content Block appended to the stream MUST be immediately followed by a **Validation Block** (using the `$manifest-chain-link` key). This document permanently seals the state transition, linking the mathematical hash of the preceding payload to the metadata of the preceding link to guarantee chronological sequence integrity.
@@ -370,109 +369,113 @@ Every Content Block appended to the stream MUST be immediately followed by a **V
 
 The schema defines the strict type requirements for each primitive value in the `$manifest-chain-link`:
 
-`{`  
-  `"$schema": "https://json-schema.org/draft/2020-12/schema",`  
-  `"title": "Continuous Attestation Validation Block Schema",`  
-  `"type": "object",`  
-  `"required": [`  
-    `"$manifest-chain-link"`  
-  `],`  
-  `"properties": {`  
-    `"$manifest-chain-link": {`  
-      `"type": "object",`  
-      `"required": [`  
-        `"version",`  
-        `"block_index",`  
-        `"timestamp",`  
-        `"hashing_strategy",`  
-        `"data_hash",`  
-        `"prev_meta_hash",`  
-        `"meta_hash"`  
-      `],`  
-      `"properties": {`  
-        `"version": {`  
-          `"type": "string",`  
-          `"pattern": "^+\\.+\\.+$"`  
-        `},`  
-        `"block_index": {`  
-          `"type": "integer",`  
-          `"minimum": 0`  
-        `},`  
-        `"timestamp": {`  
-          `"type": "string",`  
-          `"format": "date-time"`  
-        `},`  
-        `"hashing_strategy": {`  
-          `"type": "string",`  
-          `"enum": ["raw", "semantic"]`  
-        `},`  
-        `"data_hash": {`  
-          `"type": "string",`  
-          `"pattern": "^[a-f0-9]{64}$"`  
-        `},`  
-        `"prev_meta_hash": {`  
-          `"type": "string",`  
-          `"pattern": "^[a-f0-9]{64}$"`  
-        `},`  
-        `"meta_hash": {`  
-          `"type": "string",`  
-          `"pattern": "^[a-f0-9]{64}$"`  
-        `},`  
-        `"signature_auth": {`  
-          `"type": "object",`  
-          `"required": [`  
-            `"provider",`  
-            `"signer_identity",`  
-            `"git_signature"`  
-          `],`  
-          `"properties": {`  
-            `"provider": {`  
-              `"type": "string"`  
-            `},`  
-            `"signer_identity": {`  
-              `"type": "string",`  
-              `"format": "email"`  
-            `},`  
-            `"git_signature": {`  
-              `"type": "string"`  
-            `}`  
-          `}`  
-        `}`  
-      `}`  
-    `}`  
-  `}`  
-`}`
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Continuous Attestation Validation Block Schema",
+  "type": "object",
+  "required": [
+    "$manifest-chain-link"
+  ],
+  "properties": {
+    "$manifest-chain-link": {
+      "type": "object",
+      "required": [
+        "version",
+        "block_index",
+        "timestamp",
+        "hashing_strategy",
+        "data_hash",
+        "prev_meta_hash",
+        "meta_hash"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^+\\.+\\.+$"
+        },
+        "block_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "hashing_strategy": {
+          "type": "string",
+          "enum": ["raw", "semantic"]
+        },
+        "data_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "prev_meta_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "meta_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "signature_auth": {
+          "type": "object",
+          "required": [
+            "provider",
+            "signer_identity",
+            "git_signature"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string"
+            },
+            "signer_identity": {
+              "type": "string",
+              "format": "email"
+            },
+            "git_signature": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
+```
 ### **3.4.2 Complete Transaction Log Example (Multi-Document YAML)**
 
 Here is a complete, compliant YAML stream displaying a single transaction (Content Block followed by its Validation Block):
 
-`subject: package-lock.json`  
-`diff_strategy: semantic`  
-`event: update`  
-`changes:`  
-  `upgraded:`  
-    `- name: lodash`  
-      `from: 4.17.21`  
-      `to: 4.17.22`  
-`---`  
-`$manifest-chain-link:`  
-  `version: "1.0.0"`  
-  `block_index: 12`  
-  `timestamp: "2026-06-26T19:55:24.000Z"`  
-  `hashing_strategy: raw`  
-  `data_hash: "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"`  
-  `prev_meta_hash: "8c7dd922ad47494fc02c38863c18dc4074a91e5c1fa7425e73043362938b9824"`  
-  `meta_hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"`  
-  `signature_auth:`  
-    `provider: "github-ssh"`  
-    `signer_identity: "dev@enterprise.corp"`  
-    `git_signature: |`  
-      `-----BEGIN SSH SIGNATURE-----`  
-      `U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg9Sbb88Fz/w0FvD8N4P6U7XmH9W`  
-      `...`  
-      `-----END SSH SIGNATURE-----`
+```yaml
+subject: package-lock.json
+diff_strategy: semantic
+event: update
+changes:
+  upgraded:
+    - name: lodash
+      from: 4.17.21
+      to: 4.17.22
+---
+$manifest-chain-link:
+  version: "1.0.0"
+  block_index: 12
+  timestamp: "2026-06-26T19:55:24.000Z"
+  hashing_strategy: raw
+  data_hash: "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+  prev_meta_hash: "8c7dd922ad47494fc02c38863c18dc4074a91e5c1fa7425e73043362938b9824"
+  meta_hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  signature_auth:
+    provider: "github-ssh"
+    signer_identity: "dev@enterprise.corp"
+    git_signature: |
+      -----BEGIN SSH SIGNATURE-----
+      U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg9Sbb88Fz/w0FvD8N4P6U7XmH9W
+      ...
+      -----END SSH SIGNATURE-----
 
+```
 ### **3.4.3 Required Protocol Context Fields**
 
 * `version`: (String) MUST specify the protocol version of the chain schema (e.g., `"1.0.0"`) to ensure forward compatibility for parsers.  
