@@ -70,10 +70,10 @@ $grey-color-dark: #334155;   // Slate-700 for secondary text
 
   --title-color: #0E1B2E;
   --title-hover-color: #0E9AA8;
-  --icon-bg: #0E9AA8;
-  --icon-shadow: #0E1B2E;
-  --icon-hover-bg: #22D3EE;
-  --icon-hover-shadow: #0E9AA8;
+  --icon-bg: #22D3EE;                // Vibrant Teal center
+  --icon-shadow: #0E9AA8;            // Deep Teal caps (decoupled from Navy text)
+  --icon-hover-bg: #0E9AA8;          // Deep Teal center on hover
+  --icon-hover-shadow: #0E1B2E;      // Brand Navy caps on hover
 }
 
 html[data-theme="dark"] {
@@ -122,10 +122,10 @@ html[data-theme="dark"] {
 
   --title-color: #FFFFFF;
   --title-hover-color: #22D3EE;
-  --icon-bg: #22D3EE;
-  --icon-shadow: #FFFFFF;
-  --icon-hover-bg: #FFFFFF;
-  --icon-hover-shadow: #22D3EE;
+  --icon-bg: #22D3EE;                // Vibrant Teal center
+  --icon-shadow: #0E9AA8;            // Deep Teal caps (decoupled from White text)
+  --icon-hover-bg: #FFFFFF;          // White center on hover
+  --icon-hover-shadow: #0E9AA8;      // Deep Teal caps on hover
 }
 
 // 3. Custom CSS Overrides using variables
