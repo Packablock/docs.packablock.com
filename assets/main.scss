@@ -67,6 +67,13 @@ $grey-color-dark: #334155;   // Slate-700 for secondary text
   --toc-title-color: #475569;
   --toc-border: #E2E8F0;
   --toc-hover-color: #0E9AA8;
+
+  --title-color: #0E1B2E;
+  --title-hover-color: #0E9AA8;
+  --icon-bg: #0E9AA8;
+  --icon-shadow: #0E1B2E;
+  --icon-hover-bg: #22D3EE;
+  --icon-hover-shadow: #0E9AA8;
 }
 
 html[data-theme="dark"] {
@@ -112,6 +119,13 @@ html[data-theme="dark"] {
   --toc-title-color: #94A3B8;   // Slate-400
   --toc-border: #334155;        // Slate-700
   --toc-hover-color: #22D3EE;
+
+  --title-color: #FFFFFF;
+  --title-hover-color: #22D3EE;
+  --icon-bg: #22D3EE;
+  --icon-shadow: #FFFFFF;
+  --icon-hover-bg: #FFFFFF;
+  --icon-hover-shadow: #22D3EE;
 }
 
 // 3. Custom CSS Overrides using variables
@@ -141,7 +155,7 @@ body {
 }
 
 .site-title, .site-title:visited {
-  color: var(--dark-navy) !important;
+  color: var(--title-color) !important;
   font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -157,20 +171,20 @@ body {
     display: inline-block;
     width: 6px;
     height: 16px;
-    background-color: var(--brand-color);
+    background-color: var(--icon-bg);
     border-radius: 2px;
-    box-shadow: 0 -3px 0 0 var(--dark-navy), 0 3px 0 0 var(--dark-navy);
+    box-shadow: 0 -3px 0 0 var(--icon-shadow), 0 3px 0 0 var(--icon-shadow);
     margin-right: 4px;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   &:hover {
-    color: var(--brand-color) !important;
+    color: var(--title-hover-color) !important;
     text-decoration: none;
     
     &::before {
-      background-color: #22D3EE;
-      box-shadow: 0 -3px 0 0 var(--brand-color), 0 3px 0 0 var(--brand-color);
+      background-color: var(--icon-hover-bg);
+      box-shadow: 0 -3px 0 0 var(--icon-hover-shadow), 0 3px 0 0 var(--icon-hover-shadow);
     }
   }
 }
