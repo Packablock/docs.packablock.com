@@ -23,28 +23,121 @@ $grey-color-dark: #334155;   // Slate-700 for secondary text
 // Import minima theme
 @import "minima";
 
-// 2. Custom CSS overrides for a stripped-down premium light mode
+// 2. Custom CSS Theme Variables
+:root {
+  --background-color: #FAFCFC;
+  --text-color: #1E293B;
+  --brand-color: #0E9AA8;
+  --dark-navy: #0E1B2E;
+  
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --header-border: rgba(14, 154, 168, 0.12);
+  --footer-bg: #FFFFFF;
+  --footer-border: #E2E8F0;
+  --card-bg: #F8FAFC;
+  --border-color: #E2E8F0;
+  
+  --link-color: #0E9AA8;
+  --link-hover-color: #0A727C;
+  --link-border: rgba(14, 154, 168, 0.2);
+  --link-hover-bg: rgba(14, 154, 168, 0.05);
+  
+  --nav-link-color: #475569;
+  --nav-link-hover: #0E9AA8;
+  
+  --code-color: #0E1B2E;
+  --code-bg: #F1F5F9;
+  --code-border: #E2E8F0;
+  --pre-bg: #F8FAFC;
+  --pre-text: #0F172A;
+  
+  --badge-bg: rgba(14, 27, 46, 0.05);
+  --badge-border: rgba(14, 27, 46, 0.08);
+  --badge-text-title: #64748B;
+  --badge-text-repo: #0E1B2E;
+  
+  --badge-hover-bg: rgba(14, 154, 168, 0.08);
+  --badge-hover-border: rgba(14, 154, 168, 0.2);
+  --badge-hover-text: #0E9AA8;
+  
+  --blockquote-bg: rgba(14, 154, 168, 0.03);
+  --blockquote-border: #0E9AA8;
+  --blockquote-text: #475569;
+  
+  --toc-title-color: #475569;
+  --toc-border: #E2E8F0;
+  --toc-hover-color: #0E9AA8;
+}
+
+html[data-theme="dark"] {
+  --background-color: #0E1B2E; // Brand Navy
+  --text-color: #E2E8F0;        // Slate-200
+  --brand-color: #22D3EE;       // Vibrant Teal
+  --dark-navy: #FFFFFF;         // White
+  
+  --header-bg: rgba(14, 27, 46, 0.85); // Transparent brand navy
+  --header-border: rgba(34, 211, 238, 0.15); // Vibrant teal border
+  --footer-bg: #0B1321;         // Darker brand navy
+  --footer-border: #1E293B;     // Slate-800
+  --card-bg: #1E293B;           // Slate-800
+  --border-color: #334155;      // Slate-700
+  
+  --link-color: #22D3EE;        // Vibrant Teal
+  --link-hover-color: #67E8F9;  // Lighter teal
+  --link-border: rgba(34, 211, 238, 0.3);
+  --link-hover-bg: rgba(34, 211, 238, 0.08);
+  
+  --nav-link-color: #94A3B8;    // Slate-400
+  --nav-link-hover: #22D3EE;
+  
+  --code-color: #22D3EE;        // Vibrant Teal
+  --code-bg: #1E293B;           // Slate-800
+  --code-border: #334155;       // Slate-700
+  --pre-bg: #0B1321;            // Darker brand navy
+  --pre-text: #F1F5F9;          // Slate-100
+  
+  --badge-bg: rgba(34, 211, 238, 0.05); // Light teal overlay
+  --badge-border: rgba(34, 211, 238, 0.15);
+  --badge-text-title: #94A3B8;  // Slate-400
+  --badge-text-repo: #FFFFFF;
+  
+  --badge-hover-bg: rgba(34, 211, 238, 0.12);
+  --badge-hover-border: rgba(34, 211, 238, 0.3);
+  --badge-hover-text: #22D3EE;
+  
+  --blockquote-bg: rgba(34, 211, 238, 0.03);
+  --blockquote-border: #22D3EE;
+  --blockquote-text: #94A3B8;   // Slate-400
+  
+  --toc-title-color: #94A3B8;   // Slate-400
+  --toc-border: #334155;        // Slate-700
+  --toc-hover-color: #22D3EE;
+}
+
+// 3. Custom CSS Overrides using variables
 body {
   font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: $background-color;
-  color: $text-color;
+  background-color: var(--background-color);
+  color: var(--text-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .site-header {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+  background-color: var(--header-bg) !important;
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(14, 154, 168, 0.12) !important;
+  border-bottom: 1px solid var(--header-border) !important;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .site-title, .site-title:visited {
-  color: $dark-navy !important;
+  color: var(--dark-navy) !important;
   font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -60,20 +153,20 @@ body {
     display: inline-block;
     width: 6px;
     height: 16px;
-    background-color: #0E9AA8;
+    background-color: var(--brand-color);
     border-radius: 2px;
-    box-shadow: 0 -3px 0 0 $dark-navy, 0 3px 0 0 $dark-navy;
+    box-shadow: 0 -3px 0 0 var(--dark-navy), 0 3px 0 0 var(--dark-navy);
     margin-right: 4px;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   &:hover {
-    color: #0E9AA8 !important;
+    color: var(--brand-color) !important;
     text-decoration: none;
     
     &::before {
       background-color: #22D3EE;
-      box-shadow: 0 -3px 0 0 #0E9AA8, 0 3px 0 0 #0E9AA8;
+      box-shadow: 0 -3px 0 0 var(--brand-color), 0 3px 0 0 var(--brand-color);
     }
   }
 }
@@ -83,13 +176,13 @@ body {
   border: none !important;
   
   .page-link {
-    color: #475569 !important; // Slate-600
+    color: var(--nav-link-color) !important;
     font-weight: 600;
     font-size: 0.875rem;
     transition: color 0.2s ease;
     
     &:hover {
-      color: #0E9AA8 !important;
+      color: var(--nav-link-hover) !important;
       text-decoration: none;
     }
   }
@@ -99,8 +192,8 @@ body {
     align-items: center;
     gap: 10px;
     padding: 4px 10px;
-    background-color: rgba(14, 27, 46, 0.05); // Light brand navy background
-    border: 1px solid rgba(14, 27, 46, 0.08);
+    background-color: var(--badge-bg);
+    border: 1px solid var(--badge-border);
     border-radius: 6px;
     transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
     margin-left: 20px;
@@ -114,7 +207,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $dark-navy;
+      color: var(--badge-text-repo);
       transition: color 0.2s ease;
     }
 
@@ -134,7 +227,7 @@ body {
     .github-badge-title {
       font-size: 0.625rem;
       font-weight: 500;
-      color: #64748B; // Muted slate
+      color: var(--badge-text-title);
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
@@ -142,26 +235,74 @@ body {
     .github-badge-repo {
       font-size: 0.75rem;
       font-weight: 700;
-      color: $dark-navy;
+      color: var(--badge-text-repo);
       transition: color 0.2s ease;
     }
 
     &:hover {
-      background-color: rgba(14, 154, 168, 0.08) !important; // Light teal background
-      border-color: rgba(14, 154, 168, 0.2);
+      background-color: var(--badge-hover-bg) !important;
+      border-color: var(--badge-hover-border);
       transform: translateY(-1px);
 
       .github-badge-icon {
-        color: #0E9AA8;
+        color: var(--badge-hover-text);
       }
       .github-badge-repo {
-        color: #0E9AA8;
+        color: var(--badge-hover-text);
       }
     }
 
     &:active {
       transform: translateY(0);
     }
+  }
+
+  // Theme Toggle Button
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--badge-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    vertical-align: middle;
+    margin-left: 10px;
+
+    svg {
+      fill: currentColor;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background-color: var(--border-color);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// Light theme: show moon, hide sun
+html[data-theme="light"] {
+  .theme-toggle {
+    .sun-icon { display: none; }
+    .moon-icon { display: block; }
+  }
+}
+
+// Dark theme: show sun, hide moon
+html[data-theme="dark"] {
+  .theme-toggle {
+    .sun-icon { display: block; }
+    .moon-icon { display: none; }
   }
 }
 
@@ -175,28 +316,28 @@ body {
   }
 }
 
-
 .site-footer {
-  background-color: #FFFFFF !important;
-  border-top: 1px solid #E2E8F0 !important;
+  background-color: var(--footer-bg) !important;
+  border-top: 1px solid var(--footer-border) !important;
   padding: 40px 0 !important;
-  color: #64748B !important; // Slate-500
+  color: var(--nav-link-color) !important;
   margin-top: auto;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
   
   .footer-heading {
-    color: $dark-navy;
+    color: var(--dark-navy);
     font-weight: 700;
     font-family: 'IBM Plex Mono', monospace;
     letter-spacing: 0.02em;
   }
   
   a {
-    color: #64748B !important;
+    color: var(--nav-link-color) !important;
     text-decoration: none;
     transition: color 0.2s ease;
     
     &:hover {
-      color: #0E9AA8 !important;
+      color: var(--brand-color) !important;
     }
   }
 }
@@ -207,7 +348,7 @@ body {
 }
 
 .post-title {
-  color: $dark-navy;
+  color: var(--dark-navy);
   font-weight: 900;
   font-size: 2.5rem;
   letter-spacing: -0.03em;
@@ -215,14 +356,14 @@ body {
 }
 
 .post-meta {
-  color: #64748B;
+  color: var(--nav-link-color);
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.875rem;
 }
 
 .post-content {
   h1, h2, h3, h4 {
-    color: $dark-navy;
+    color: var(--dark-navy);
     font-weight: 800;
     margin-top: 2em;
     margin-bottom: 0.6em;
@@ -230,13 +371,13 @@ body {
   }
   
   h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; border-bottom: 1px solid #E2E8F0; padding-bottom: 0.3em; }
+  h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
   h3 { font-size: 1.25rem; }
   
   p, li {
     font-size: 1.05rem;
     line-height: 1.75;
-    color: $text-color;
+    color: var(--text-color);
   }
   
   ul, ol {
@@ -249,41 +390,43 @@ body {
   
   a {
     font-weight: 600;
-    color: #0E9AA8;
+    color: var(--link-color);
     text-decoration: none;
-    border-bottom: 2px solid rgba(14, 154, 168, 0.2);
+    border-bottom: 2px solid var(--link-border);
     transition: all 0.2s ease;
     
     &:hover {
-      color: #0A727C;
-      border-bottom-color: #0A727C;
-      background-color: rgba(14, 154, 168, 0.05);
+      color: var(--link-hover-color);
+      border-bottom-color: var(--link-hover-color);
+      background-color: var(--link-hover-bg);
     }
   }
   
   code {
-    background-color: #F1F5F9;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 3px 6px;
     font-size: 0.9em;
     font-family: 'IBM Plex Mono', monospace;
-    color: $dark-navy;
-    border: 1px solid #E2E8F0;
+    color: var(--code-color);
+    border: 1px solid var(--code-border);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
   
   pre {
-    background-color: #F8FAFC !important;
-    border: 1px solid #E2E8F0;
+    background-color: var(--pre-bg) !important;
+    border: 1px solid var(--code-border);
     border-radius: 8px;
     padding: 20px;
     overflow-x: auto;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
     
     code {
       background-color: transparent !important;
       border: none !important;
       padding: 0 !important;
-      color: #0F172A !important;
+      color: var(--pre-text) !important;
       font-size: 0.9rem;
       line-height: 1.6;
     }
@@ -291,52 +434,68 @@ body {
 
   // High-contrast syntax highlighting overrides for clean light mode
   .highlight {
-    .c, .c1, .ch, .cm, .cpf { color: #57606a !important; font-style: italic; } // Comments (Darker Muted Slate)
-    .k, .kd, .kn, .kp, .kr, .kt, .kv { color: #0550ae !important; font-weight: 600; } // Keywords (Deep Indigo)
-    .s, .s1, .s2, .sb, .sc, .sd, .sh, .si, .sx, .sr, .ss { color: #0a3069 !important; font-weight: 500; } // Strings (Deep Navy/Blue-Green)
+    .c, .c1, .ch, .cm, .cpf { color: #57606a !important; font-style: italic; } // Comments
+    .k, .kd, .kn, .kp, .kr, .kt, .kv { color: #0550ae !important; font-weight: 600; } // Keywords
+    .s, .s1, .s2, .sb, .sc, .sd, .sh, .si, .sx, .sr, .ss { color: #0a3069 !important; font-weight: 500; } // Strings
     .dl { color: #0a3069 !important; } // Delimiters
-    .nx, .na, .nb, .bp { color: #1e293b !important; } // Names / Identifiers (Slate-800)
+    .nx, .na, .nb, .bp { color: #1e293b !important; } // Names / Identifiers
     .o, .p { color: #334155 !important; font-weight: 500; } // Operators & Punctuation
-    .m, .mb, .mf, .mh, .mi, .mo, .il { color: #cf222e !important; } // Numbers (Bright High-Contrast Red)
+    .m, .mb, .mf, .mh, .mi, .mo, .il { color: #cf222e !important; } // Numbers
     .kc, .kd { color: #cf222e !important; font-weight: 600; } // Constants
-    .nt { color: #0550ae !important; } // Tag name (HTML/XML)
+    .nt { color: #0550ae !important; } // Tag name
+  }
+
+  // High-contrast syntax highlighting overrides for dark mode
+  html[data-theme="dark"] & .highlight {
+    .c, .c1, .ch, .cm, .cpf { color: #94A3B8 !important; font-style: italic; } // Comments (Slate-400)
+    .k, .kd, .kn, .kp, .kr, .kt, .kv { color: #38BDF8 !important; font-weight: 600; } // Keywords (Sky-400)
+    .s, .s1, .s2, .sb, .sc, .sd, .sh, .si, .sx, .sr, .ss { color: #34D399 !important; font-weight: 500; } // Strings (Emerald-400)
+    .dl { color: #34D399 !important; } // Delimiters
+    .nx, .na, .nb, .bp { color: #F1F5F9 !important; } // Names (Slate-100)
+    .o, .p { color: #CBD5E1 !important; font-weight: 500; } // Operators (Slate-300)
+    .m, .mb, .mf, .mh, .mi, .mo, .il { color: #F87171 !important; } // Numbers (Red-400)
+    .kc, .kd { color: #F87171 !important; font-weight: 600; } // Constants
+    .nt { color: #38BDF8 !important; } // Tag name
   }
 
   blockquote {
-    border-left: 4px solid #0E9AA8;
+    border-left: 4px solid var(--blockquote-border);
     padding-left: 20px;
     margin-left: 0;
-    color: #475569;
+    color: var(--blockquote-text);
     font-style: italic;
-    background-color: rgba(14, 154, 168, 0.03);
+    background-color: var(--blockquote-bg);
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 0 8px 8px 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 }
 
+
 // Table of Contents styling (Inline card by default, floating on wide screens)
 #markdown-toc {
-  background-color: #F8FAFC;
-  border: 1px solid #E2E8F0;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px 20px 20px 35px;
   margin: 2em 0;
   font-size: 0.95rem;
   line-height: 1.6;
   list-style-type: decimal;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 
   li {
     margin-bottom: 0.4em;
-    color: #475569;
+    color: var(--toc-title-color);
     
     a {
-      color: #0E9AA8;
+      color: var(--link-color);
       font-weight: 500;
       border-bottom: none;
       
       &:hover {
-        color: #0A727C;
+        color: var(--link-hover-color);
         text-decoration: underline;
         background-color: transparent;
       }
@@ -368,7 +527,7 @@ body {
     overflow-y: auto;
     background-color: transparent;
     border: none;
-    border-left: 2px solid #E2E8F0;
+    border-left: 2px solid var(--border-color);
     border-radius: 0;
     padding: 0 0 0 20px;
     margin: 0;
@@ -382,12 +541,12 @@ body {
       margin-bottom: 0.6em;
       
       a {
-        color: #475569;
+        color: var(--toc-title-color);
         font-weight: 400;
         transition: color 0.2s ease, border-left-color 0.2s ease;
         
         &:hover {
-          color: #0E9AA8;
+          color: var(--toc-hover-color);
           text-decoration: none;
         }
       }
