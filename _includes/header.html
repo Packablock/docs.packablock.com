@@ -12,7 +12,16 @@
   <div class="wrapper">
     {%- assign default_paths = site.pages | map: "path" -%}
     {%- assign page_paths = site.header_pages | default: default_paths -%}
-    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">
+      <span class="site-title-icon">
+        <svg viewBox="0 0 16 24" width="16" height="24" class="candlestick-svg">
+          <line class="candlestick-cap" x1="4" y1="5" x2="12" y2="5" />
+          <line class="candlestick-stick" x1="8" y1="5" x2="8" y2="19" />
+          <line class="candlestick-cap" x1="4" y1="19" x2="12" y2="19" />
+        </svg>
+      </span>
+      {{ site.title | escape }}
+    </a>
 
     {%- if page_paths -%}
       <nav class="site-nav">

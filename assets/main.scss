@@ -170,41 +170,54 @@ body {
   transition: opacity 0.2s ease, color 0.2s ease;
   
   // Custom brand accent candlestick indicator inside a terminal cursor block
-  &::before {
-    content: '';
-    display: inline-block;
+  .site-title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 16px;
     height: 24px;
-    background-image: 
-      linear-gradient(var(--icon-shadow), var(--icon-shadow)), /* Top Cap */
-      linear-gradient(var(--icon-shadow), var(--icon-shadow)), /* Bottom Cap */
-      linear-gradient(var(--icon-bg), var(--icon-bg));         /* Center line */
-    background-size: 
-      6px 2px,
-      6px 2px,
-      2px 12px;
-    background-position: 
-      5px 4px,
-      5px 18px,
-      7px 6px;
-    background-repeat: no-repeat;
     background-color: var(--cursor-bg);
     border-radius: 3px;
     margin-right: 4px;
     vertical-align: middle;
     transition: background-color 0.2s ease, transform 0.15s ease;
+
+    .candlestick-svg {
+      width: 16px;
+      height: 24px;
+      display: block;
+
+      line {
+        stroke-linecap: square;
+        stroke-width: 2px;
+        transition: stroke 0.2s ease;
+      }
+
+      .candlestick-cap {
+        stroke: var(--icon-shadow);
+      }
+
+      .candlestick-stick {
+        stroke: var(--icon-bg);
+      }
+    }
   }
 
   &:hover {
     color: var(--title-hover-color) !important;
     text-decoration: none;
     
-    &::before {
-      background-image: 
-        linear-gradient(var(--icon-hover-shadow), var(--icon-hover-shadow)),
-        linear-gradient(var(--icon-hover-shadow), var(--icon-hover-shadow)),
-        linear-gradient(var(--icon-hover-bg), var(--icon-hover-bg));
+    .site-title-icon {
       background-color: var(--cursor-hover-bg);
+
+      .candlestick-svg {
+        .candlestick-cap {
+          stroke: var(--icon-hover-shadow);
+        }
+        .candlestick-stick {
+          stroke: var(--icon-hover-bg);
+        }
+      }
     }
   }
 }
