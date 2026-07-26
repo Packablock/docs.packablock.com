@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Continuous Attestation Specification
+nav_title: Specification
 permalink: /spec/
 ---
 
