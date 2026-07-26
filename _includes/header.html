@@ -63,10 +63,16 @@
   </div>
 </header>
 
+<div id="image-zoom-overlay" class="image-zoom-overlay">
+  <div class="zoom-image-wrapper">
+    <img id="zoom-target-image" src="" alt="Zoomed view" />
+  </div>
+</div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // Theme toggle
     const toggleButton = document.getElementById('theme-toggle');
-    
     if (toggleButton) {
       toggleButton.addEventListener('click', function() {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
@@ -74,6 +80,39 @@
         
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+      });
+    }
+
+    // Fullscreen Image Zoom
+    const overlay = document.getElementById('image-zoom-overlay');
+    const zoomImg = document.getElementById('zoom-target-image');
+    const contentImages = document.querySelectorAll('.post-content img');
+
+    if (overlay && zoomImg && contentImages.length > 0) {
+      contentImages.forEach(img => {
+        img.addEventListener('click', function() {
+          zoomImg.src = this.src;
+          zoomImg.alt = this.alt || 'Zoomed view';
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Lock background scrolling
+        });
+      });
+
+      const closeZoom = function() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Restore background scrolling
+        setTimeout(() => {
+          zoomImg.src = ''; // Clear image source after transition finishes
+        }, 250);
+      };
+
+      overlay.addEventListener('click', closeZoom);
+
+      // Close on Esc key press
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+          closeZoom();
+        }
       });
     }
   });
