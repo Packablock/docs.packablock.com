@@ -38,7 +38,7 @@ The Continuous Attestation Specification addresses these gaps by defining a port
 
 By standardizing the flow of data between the manifest chain, the anchor, the registry, and the CLI tooling, this specification provides maintainers with a deterministic, AI-readable framework that bridges high-velocity development with rigorous supply chain compliance.
 
-## **1.1 Scope and Goals**
+## 1.1 Scope and Goals
 
 This specification establishes the requirements for Continuous Attestation using change tracking decoupled from the repository. Tracking changes using this standard provides a continuous, cryptographically consistent lineage of software artifacts. The framework seeks to ensure that there is no possibility of tampering, rollback, or insertion of compromised artifacts. This process, paired with the steps laid out in SLSA allows automated systems and human auditors to trace the provenance of the change history. Because the complete change history of tracked files (like package.lock) is securely stored in the manifest chain and registry auditors can quickly report on what changed and when using a single query. Because the manifest chain must be cryptographically consistent on every update, maintainers can configure the build pipeline to fail early if a tracked file changed without adhering to a defined process. Because the CLI can efficiently validate a manifest chain and search for semantic changes within the tracked files, AI agents can use tool calls to deterministically answer questions about what changed without context window collapse. 
 
@@ -51,7 +51,7 @@ To smooth the friction between high-velocity deployments and rigorous compliance
 * **Ecosystem Compatibility and Timeline Continuity:** Modern supply chain environments—such as GitHub's native signing infrastructure and Sigstore's Rekor—excel at providing isolated, point-in-time build signatures and writing them to immutable transparency logs. However, isolated point-in-time attestations natively lack chronological state, leaving consumers vulnerable to adversaries who might replace a current artifact and its valid attestation with an older, mathematically valid but fundamentally compromised version. This spec defines a framework that coexists beneficially with GitHub, Sigstore, and enhances SLSA process. The stand-alone nature of the manifest chain as a secure and complete historical change log hopefully allows new maintainers to achieve enterprise-grade supply chain security without complex integrations. The open nature of the manifest chain format ensures simple adaptation into existing infrastructure.  
 * **Incremental, Diff-Only State:** Supply chain metadata must not require monolithic, full-file overwrites for minor dependency updates. Taking inspiration from Git's version control architecture which records incremental changes to branch tips, the manifest chain shall act as a transactional delta log. By appending only the exact filesystem event (delete) or line-level modifications, the specification guarantees a reliable, sequentially auditable change history without inflating file sizes. Concise and chronological change history promotes readability by AI agents without overwhelming context.
 
-### **1.1.1 Comparison with Github and Rekor**
+### 1.1.1 Comparison with Github and Rekor
 
 Here is the architectural breakdown comparing the security postures and vulnerability profiles of four common deployment scenarios.
 
@@ -66,7 +66,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 | **4\. Manifest Chain with Sovereign Registry** (e.g., Packablock Registry) | **\+ Continuous Truth Anchor:** Provides a centralized, immutable ingestion endpoint that absolutely guarantees timeline continuity, preventing split-timeline and downgrade attacks. **\+** **Agentic Automation:** Triggers real-time SemVer webhooks and interactive telemetry to automatically gate CI/CD/CA pipelines based on chronological state. |
 |  | **\- Network & Availability Dependency:** Introduces a strict external network dependency; if the registry goes offline, deployments and verifications may halt. **\-** **Infrastructure Trust:** Requires trusting the registry's control plane administrators to not abuse privileges or tamper with the database storage, as the registry acts as the ultimate gatekeeper. |
 
-### **Use Case 1: No Attestation**
+### Use Case 1: No Attestation
 
 1. **Download Request:** The developer initiates a download of a binary (e.g., "bun") from a domain they trust over a secure SSL/HTTPS connection.  
 2. **File Delivery:** The hosting server (such as GitHub) returns the requested binary file to the developer.  
@@ -80,7 +80,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 
 
-### **Use Case 2: Validate Continuous Attestation Artifacts**
+### Use Case 2: Validate Continuous Attestation Artifacts
 
 1. **Download:** The developer requests an OCI Image Artifact from the registry.  
 2. **Receive Artifacts:** The registry returns the software binary alongside its dependency change history (`manifest_chain.yaml`) and detached anchor (`chain_sig.yaml`) inside the image.  
@@ -94,7 +94,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 ![][use-case-2-validate-ca-artifacts]
 
 
-### **Use Case 3: Package Manager Verification**
+### Use Case 3: Package Manager Verification
 
 1. **Initiate Install:** The developer executes the standard `npm install` command, which is intercepted by the `pkablk` CLI wrapper or called as a helper.  
 2. **Fetch Dependency Graph:** The package manager queries the registry to retrieve the entire graph of required dependencies.  
@@ -108,7 +108,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 ![][use-case-3-package-manager-verification]
 
 
-### **Use Case 4: The CI/CD/CA Builder Pipeline**
+### Use Case 4: The CI/CD/CA Builder Pipeline
 
 1. **Initialize Build Environment:** The GitHub runner establishes an ephemeral, isolated execution environment to satisfy SLSA Build Level 3 requirements.  
 2. **Diff Manifest:** The runner evaluates the tracked package manifests (e.g. package.json and package-lock.json) and detects a version change for an upstream dependency.  
@@ -125,7 +125,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-4-builder-pipeline]
 
-### **Use Case 5: CVE Impact Audit with AI**
+### Use Case 5: CVE Impact Audit with AI
 
 1. **Initiate Audit:** The Incident Response team prompts the AI auditor agent with the specific CVE and the vulnerable package version range.  
 2. **Fetch Production Evidence:** The agent pulls the latest Bundled OCI Artifact (the synchronized compiled binaries and `manifest_chain.yaml`) from all multi-tenant production environments.  
@@ -137,7 +137,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-5-cve-impact-audit]
 
-### **Use Case 6: Build Sentinel**
+### Use Case 6: Build Sentinel
 
 1. **Initialize Sentinel Environment:** The SecOps team creates an isolated, dedicated Git branch (e.g., `secops/manifest-chain`) containing the initial `manifest_chain.yaml` and detached signature (chain\_sig.yaml), keeping it separate from the developers' workspace.  
 2. **Developer Push:** A developer pushes code and lockfile changes to the `main` branch normally, blissfully unaware of the automated security mechanisms.  
@@ -151,7 +151,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-6-build-sentinel]
 
-### **Use Case 7: AI Hallucinates Changes in a PR**
+### Use Case 7: AI Hallucinates Changes in a PR
 
 1. **AI Task:** An autonomous coding agent makes sweeping changes to a repository, burying a vulnerable dependency update inside a massive, 10,000-line pull request.  
 2. **Version Drift Introduced:** Attempting to resolve a version conflict, the agent hallucinates an open-ended constraint, replacing a strictly pinned version with an unbounded descriptor (e.g., `>=1.2.0`).  
@@ -162,7 +162,7 @@ Here is the architectural breakdown comparing the security postures and vulnerab
 
 ![][use-case-7-ai-pr-hallucination]
 
-## **1.2 Normative References**
+## 1.2 Normative References
 
 The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document.
 
@@ -175,13 +175,13 @@ The following documents are referred to in the text in such a way that some or a
 * OCI Image Spec: Open Container Initiative Image Format Specification, defining the architecture for the Bundled OCI Artifact.  
 * ORAS Artifact Manifest: OCI Registry As Storage Artifact Manifest Specification, defining the artifactType and subject properties for supply chain graph linking.
 
-## **1.3 Terminology**
+## 1.3 Terminology
 
-### **1.3.1 Normative Conventions** 
+### 1.3.1 Normative Conventions 
 
 The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” are used as defined in RFC 2119\.
 
-### **1.3.2 Core Architectural Concepts** 
+### 1.3.2 Core Architectural Concepts 
 
 The following definitions apply throughout this specification:
 
@@ -205,11 +205,11 @@ The following definitions apply throughout this specification:
 * **Software Bill of Materials (SBOM):** A static file providing a single, point-in-time snapshot of an environment. Because an SBOM is designed to be parsed *in-toto*, it offers a distinct operational advantage in parsing speed and immediate readability. An SBOM is complementary to the dependency change history; an auditor or user can generate a point-in-time SBOM directly from the chain file if they wish to.  
 * **Bundled OCI Artifact:** A content-addressable packaging architecture (such as an OCI Artifact) that freezes a compiled release binary, the manifest chain, the chain anchor together into an all in one OCI manifest. Any alteration to the compiled binary instantly breaks the signature verification of the entire package.
 
-## **1.4 Call for Community Contributions**
+## 1.4 Call for Community Contributions
 
 The Continuous Attestation specification relies on a modular, decentralized architecture that is designed to grow through community contribution. To guide open source contributors, tool builders, and security auditors, this section outlines the unresolved architectural questions that are actively open for discussion and development. According to Nadia Asparouhova’s book *Working in Public,* “more people should contribute to open source.”
 
-### **1.4.1 Active Community Contribution Areas**
+### 1.4.1 Active Community Contribution Areas
 
 We explicitly invite contributions, draft proposals, and prototype implementations in three key areas:
 
@@ -248,7 +248,7 @@ When software is distributed across federated or mirrored registries, a compromi
 
 # 2\. Basic Format and Grammar
 
-## **2.1 File Naming and MIME Types**
+## 2.1 File Naming and MIME Types
 
 To ensure cross-platform compatibility and immediate recognition by standard software development tools, Continuous Attestation manifest chains adhere to strict naming and typing conventions.
 
@@ -257,7 +257,7 @@ To ensure cross-platform compatibility and immediate recognition by standard sof
 * **Detached Anchor Name:** As defined in Section 5.2.4 (The Anchor Singularity Rule), the detached anchored manifest MUST be housed in a separate file, which SHOULD be named `chain_sig.yaml`. However, the anchor may also be stored in a database in a registry.  
 * **MIME Type:** When transferring the manifest chain over HTTP or packaging it within an OCI registry, implementations MUST utilize the `application/vnd.packablock.manifest-chain+yaml` MIME type (as defined in Section 5.3) rather than the generic `text/yaml`.
 
-## **2.2 Character Set and Encodings**
+## 2.2 Character Set and Encodings
 
 Because the Manifest Chain relies on exact byte streams to calculate and verify cryptographic hashes (e.g., `data_hash`, `meta_hash`), any ambiguity in character encoding will result in verification failures. Failures can be interpreted as either invalid content or as valid content with invalid Verification Block.
 
@@ -265,7 +265,7 @@ Because the Manifest Chain relies on exact byte streams to calculate and verify 
 * **Allowed Characters:** To ensure readability and parsing consistency, streams MUST use only the printable subset of the Unicode character set. The allowed character range explicitly excludes the C0 control block (except for TAB `x09`, LF `x0A`, and CR `x0D`), DEL `x7F`, and the C1 control block.  
 * **Line Breaks:** YAML 1.2 strictly recognizes only ASCII line break characters (specifically Line Feed `0x0A` and Carriage Return `0x0D`). To ensure strict compatibility with JSON, non-ASCII line breaks—such as next line (`0x85`), line separator (`0x2028`), and paragraph separator (`0x2029`)—are treated as regular non-break characters. Line breaks inside scalar content MUST be normalized by the processor to a single line feed (LF, `x0A`).
 
-## **2.3 Syntax Conventions and Structural Productions**
+## 2.3 Syntax Conventions and Structural Productions
 
 The Continuous Attestation software engineering practice leverages the native features of YAML to create a sequential, multi-document manifest chain.
 
@@ -278,39 +278,39 @@ The Continuous Attestation software engineering practice leverages the native fe
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
 
-## **3.1 Possible Value Types / Primitives**
+## 3.1 Possible Value Types / Primitives
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST" and "MUST NOT" in this section are to be interpreted as described in RFC 2119\.
 
 Within the structural boundaries of the Manifest Chain validation block (such as the `$manifest-chain-link`), parsers MUST natively recognize and support the following core scalar primitives:
 
-### **3.1.1 String** 
+### 3.1.1 String 
 
 A String represents a sequence of zero or more Unicode characters. All strings MUST be valid UTF-8 character encodings. Within the `$manifest-chain-link`, strings are the primary data type used for all cryptographic hashes (e.g., `data_hash`, `meta_hash`), cryptographic keys/signatures (`git_signature`), and structural identifiers (`version`, `hashing_strategy`).
 
-### **3.1.2 Integer** 
+### 3.1.2 Integer 
 
 An Integer represents arbitrary sized finite mathematical integers. Integers are strictly whole numbers; they MUST NOT contain fractional parts or decimal points. Within the Manifest Chain, integers are explicitly required for the `block_index` to maintain mathematical chronological sequencing.
 
-### **3.1.3 Offset Date-Time (RFC 3339 String)** 
+### 3.1.3 Offset Date-Time (RFC 3339 String) 
 
 While technically evaluated as a string by standard JSON or YAML processors, the Manifest Chain elevates the timestamp into a strictly evaluated primitive. To unambiguously represent a specific instant in time, any time value (such as the `timestamp` key) MUST strictly conform to the `date-time` format specified in RFC 3339\. Fractional seconds (millisecond precision) are permitted, but if the value contains greater precision than the parsing implementation can support, the additional precision MUST be truncated, not rounded.
 
-### **3.1.4 Boolean** 
+### 3.1.4 Boolean 
 
 A Boolean represents a `true` or `false` logic value. The values MUST always be lowercase.
 
-### **3.1.5 Null** 
+### 3.1.5 Null 
 
 A Null represents the intentional lack of a value. Parsers MUST distinguish between a mathematically `null` value and an empty string (`""`); they are evaluated differently during the hash serialization phase.
 
-## **3.2 Collections, Arrays, and Objects**
+## 3.2 Collections, Arrays, and Objects
 
 While the Manifest Chain is designed to encapsulate format-agnostic data payloads, the structural boundaries of the manifest chain—namely the `$manifest-chain-link` validation block and any detached external manifests—rely on standardized collection types to organize data.
 
 To ensure deterministic hashing across discrete CI/CD/CA/CA systems, parsers MUST evaluate collections according to the following strict constraints:
 
-### **3.2.1 Mappings (Objects / Dictionaries)** 
+### 3.2.1 Mappings (Objects / Dictionaries) 
 
 A Mapping represents a collection of key-value pairs.
 
@@ -318,18 +318,18 @@ A Mapping represents a collection of key-value pairs.
 * Uniqueness: A mapping's keys MUST be unique; no two keys within the same mapping can be equal to each other. Parsing engines MUST NOT instantiate an error-free representation if duplicate keys are detected, as ambiguity in key resolution is a critical vector for supply chain tampering.  
 * Ordering: In the abstract representation model, mapping keys do not have an inherent mathematical order. While the Raw Byte Parser will naturally capture the literal written order of the bytes, Semantic AST Parsers MUST evaluate mapping equivalence without relying on key order.
 
-### **3.2.2 Sequences (Arrays / Lists)** 
+### 3.2.2 Sequences (Arrays / Lists) 
 
 A Sequence represents an ordered collection of zero or more values.
 
 * Data Types: Sequences MAY contain values of mixed data types, including other collections or primitive scalars.  
 * Order Significance: Unlike mappings, the order of elements within a sequence is strictly mathematically significant. Any change to the sequential order of elements within a `$manifest-chain-link` or a detached anchored manifest MUST fundamentally alter the resulting cryptographic hash, breaking the verification of the manifest chain.
 
-## **3.3 Content Block Schemas and Examples**
+## 3.3 Content Block Schemas and Examples
 
 A **Content Block** represents the raw or semantic changes made to a tracked manifest file (such as a dependency lockfile). It MUST be structured according to one of the two defined strategies: **Semantic Diff** or **Line-Based Diff**.
 
-### **3.3.1 Semantic Diff Strategy Example**
+### 3.3.1 Semantic Diff Strategy Example
 
 This strategy captures precise, structured changes to package dependencies. It is highly readable by automated systems and AI agents.
 
@@ -349,7 +349,7 @@ changes:
   removed: []
 
 ```
-### **3.3.2 Line-Based Diff Strategy Example**
+### 3.3.2 Line-Based Diff Strategy Example
 
 This strategy records raw line-level changes, matching the classic unified patch layout seen in version control tools. It MUST use a **YAML Literal Block Scalar (`|`)** to guarantee the preservation of line endings and whitespace for exact cryptographic hashing.
 
@@ -367,11 +367,11 @@ patch: |
    }
 
 ```
-## **3.4 Validation Block Schema and Example**
+## 3.4 Validation Block Schema and Example
 
 Every Content Block appended to the stream MUST be immediately followed by a **Validation Block** (using the `$manifest-chain-link` key). This document permanently seals the state transition, linking the mathematical hash of the preceding payload to the metadata of the preceding link to guarantee chronological sequence integrity.
 
-### **3.4.1 JSON Schema Definition (Normative)**
+### 3.4.1 JSON Schema Definition (Normative)
 
 The schema defines the strict type requirements for each primitive value in the `$manifest-chain-link`:
 
@@ -450,7 +450,7 @@ The schema defines the strict type requirements for each primitive value in the 
 }
 
 ```
-### **3.4.2 Complete Transaction Log Example (Multi-Document YAML)**
+### 3.4.2 Complete Transaction Log Example (Multi-Document YAML)
 
 Here is a complete, compliant YAML stream displaying a single transaction (Content Block followed by its Validation Block):
 
@@ -482,13 +482,13 @@ $manifest-chain-link:
       -----END SSH SIGNATURE-----
 
 ```
-### **3.4.3 Required Protocol Context Fields**
+### 3.4.3 Required Protocol Context Fields
 
 * `version`: (String) MUST specify the protocol version of the chain schema (e.g., `"1.0.0"`) to ensure forward compatibility for parsers.  
 * `block_index`: (Integer) MUST represent the absolute chronological sequence number of the current transaction. The index MUST begin at `0` for the origin block and increment by exactly `1` for each subsequent block.  
 * `timestamp`: (String) The date and time when the link was generated. To guarantee correct time zone offset processing across discrete CI/CD/CA systems, the value MUST strictly conform to the `date-time` format as specified in RFC 3339\.
 
-### **3.4.4 Cryptographic Links and Hashing** 
+### 3.4.4 Cryptographic Links and Hashing 
 
 The chain relies on strict mathematical linking. The hashing algorithm utilized MUST be a secure hash algorithm, such as SHA-256, as specified in NIST FIPS 180-4.
 
@@ -497,7 +497,7 @@ The chain relies on strict mathematical linking. The hashing algorithm utilized 
 * `prev_meta_hash`: (String) REQUIRED for all blocks. MUST contain the exact `meta_hash` of the immediately preceding `$manifest-chain-link` validation block to enforce sequence integrity. For the origin block (`block_index: 0`), this MUST be represented as a 64-character zeroed-out string.  
 * `meta_hash`: (String) MUST contain the calculated hash digest of the current `$manifest-chain-link` object itself.
 
-### **3.4.5 Identity and Non-Repudiation (`signature_auth`)** 
+### 3.4.5 Identity and Non-Repudiation (`signature_auth`) 
 
 To satisfy continuous zero-trust attestation, the `$manifest-chain-link` MAY include a `signature_auth` block to establish exactly who authorized the modification. If present, it MUST include:
 
@@ -603,19 +603,19 @@ Following the loading failure principles of the YAML 1.2.2 specification, a pars
 * Any REQUIRED fields within the `$manifest-chain-link` (such as `version`, `timestamp`, or `hashing_strategy`) are missing or strictly fail to conform to their defined primitives.  
 * Duplicate keys are detected within a single mapping object, as ambiguity in key resolution is a critical vector for supply chain tampering.
 
-## **4.4 Verification Summary Attestations (VSA)**
+## 4.4 Verification Summary Attestations (VSA)
 
 As software supply chains scale, applications frequently rely on hundreds or thousands of dependencies. Requiring a localized parsing engine to recursively download and sequentially evaluate the full Manifest Chain, detached anchors, and build provenance for every single dependency introduces unacceptable latency into high-velocity CI/CD/CA pipelines and developer installations.
 
 To resolve this performance bottleneck without sacrificing zero-trust mathematical guarantees, implementations of this specification SHOULD support the generation and ingestion of **Verification Summary Attestations (VSA)**.
 
-### **4.4.1 Definition and Purpose**
+### 4.4.1 Definition and Purpose
 
 A Verification Summary Attestation (VSA) is an authenticated statement indicating that a trusted entity (the verifier) has evaluated one or more software artifacts and a bundle of attestations against a specific security policy.
 
 By issuing a VSA, the verifier communicates the verified compliance level (such as an achieved SLSA level) to downstream consumers. This allows software consumers to delegate complex, recursive policy decisions to a trusted party—such as a Sovereign Registry or a central Enterprise CI/CD/CA gate—and simply trust that party's decision regarding the artifact without needing to independently evaluate the entire historical manifest chain of attestations.
 
-### **4.4.2 Integration with the Manifest Chain**
+### 4.4.2 Integration with the Manifest Chain
 
 When a VSA is utilized in conjunction with the Continuous Attestation software engineering practice, the Manifest Chain and the VSA MUST interact through the following architectural model:
 
@@ -630,17 +630,17 @@ When a VSA is utilized in conjunction with the Continuous Attestation software e
 
 By utilizing this VSA architecture, the specification guarantees that the unbroken, Git-like chronological history of the Manifest Chain is rigorously audited, while abstracting that complexity into a single, highly performant cryptographic payload for the end consumer.
 
-## **4.5 Agentic Evaluation and Deterministic Tooling**
+## 4.5 Agentic Evaluation and Deterministic Tooling
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
 
 The Continuous Attestation software engineering practice transforms static configuration files into an active, Agentic ecosystem. However, while Large Language Models (LLMs) excel at synthesizing incident reports and guiding remediation strategies, they are fundamentally probabilistic engines. Asking an LLM to "read" a massive codebase or evaluate a set of production release artifacts to definitively locate a specific, CVE-impacted dependency version is an invitation for confident hallucinations.
 
-### **4.5.1 The Limitations of Probabilistic Auditing**
+### 4.5.1 The Limitations of Probabilistic Auditing
 
 LLMs natively lack the deterministic capacity to parse thousands of unindexed files, accurately reconstruct chronological file states, or perform exact byte-for-byte sequence matching across multi-tenant environments. If an automated security agent attempts to ascertain the compliance state of a release by relying on probabilistic text generation or naked source code extraction, the resulting output is non-deterministic and entirely unsuitable for regulatory auditing.
 
-### **4.5.2 Mandatory Tooling for Agentic Workflows**
+### 4.5.2 Mandatory Tooling for Agentic Workflows
 
 To ensure reliability and mathematical truth during incident response or version auditing, automated agents and LLMs MUST NOT independently guess or probabilistically evaluate the state of dependencies. Instead, the Agentic workflow MUST interact with the Continuous Attestation software engineering practice through deterministic search and comparison tools.
 
@@ -653,7 +653,7 @@ When an LLM is tasked with auditing a codebase or production artifact, the syste
 
 By enforcing this strict boundary between the LLM's probabilistic reasoning and the CLI tool's deterministic execution, organizations can deploy autonomous security agents that operate with the absolute precision required by enterprise compliance frameworks.
 
-## **4.6 Semantic Versioning Constraints and Degradation Warnings**
+## 4.6 Semantic Versioning Constraints and Degradation Warnings
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
 
@@ -676,34 +676,34 @@ To maintain structural clarity and interoperation standard parity, the key words
 
 The Manifest Chain is designed to be highly automated and adaptable to specialized enterprise use cases without sacrificing parser interoperability.
 
-### **5.1.1 The Properties Array** 
+### 5.1.1 The Properties Array 
 
 Following the design philosophy of the CycloneDX standard, the `$manifest-chain-link` MAY include a `properties` array to act as a name-value store. This provides the flexibility to include custom metadata (such as internal organizational tracking IDs, environment flags, or telemetry) without having to use additional namespaces or create custom schema extensions that might cause a strict Raw Byte Parser to fail.
 
-### **5.1.2 Extension Evaluation Rules** 
+### 5.1.2 Extension Evaluation Rules 
 
 If an implementation chooses to support custom extension fields within the `$manifest-chain-link`, it MUST adhere to the following strict evaluation constraints adapted from the SLSA specification:
 
 * Immutability of Meaning: Extension fields MUST NOT alter the meaning of any other required cryptographic field. An invalid or tampered `meta_hash` MUST immediately trigger a critical failure state, regardless of any custom extensions present.  
 * The Monotonic Principle: Extensions SHOULD follow the monotonic principle, meaning that a parser deleting or ignoring an unrecognized extension field MUST NOT turn a DENY security decision into an ALLOW decision.
 
-## **5.2 Security Considerations and Threat Model**
+## 5.2 Security Considerations and Threat Model
 
 The Manifest Chain serves as a zero-trust cryptographic manifest chain. Implementations MUST evaluate the following supply chain threats and ensure their parsing engines are configured to mitigate them.
 
-### **5.2.1 Provenance and Hash Forgery** 
+### 5.2.1 Provenance and Hash Forgery 
 
 An adversary might attempt to generate a bogus manifest payload and forge the resulting hashes to mask a malicious software injection. Because the `$manifest-chain-link` relies on chronological mathematical linking, a forged `data_hash` will inevitably break the calculation of the concluding `meta_hash`. The optional but recommended requirement to sign the trailer via the `signature_auth` block further mitigates this threat, ensuring that a forged hash sequence cannot be authenticated by a legitimate actor.
 
-### **5.2.2 Split-Timeline and Rollback Attacks** 
+### 5.2.2 Split-Timeline and Rollback Attacks 
 
 An attacker might attempt a rollback attack by providing a mathematically valid but historically outdated Manifest Chain file, attempting to silently revert the environment to a known vulnerable dependency state. By strictly enforcing the sequentially incrementing `block_index` and continuous `prev_meta_hash` anchors, parsing engines are mathematically guaranteed to detect if a manifest chain has been branched, rolled back, or truncated.
 
-### **5.2.3 Cryptographic Key Compromise** 
+### 5.2.3 Cryptographic Key Compromise 
 
 The non-repudiation of the chain relies heavily on the security of the keys used to generate the `signature_auth` block. Cryptographic keys MUST contain sufficient entropy and be stored in a secure environment. If a developer's signing key is compromised, the sequential nature of the dependency change history allows enterprise security teams to identify the exact `block_index` where the compromised key was first introduced. This allows them to instantly isolate the blast radius and cryptographically deprecate all subsequent blocks.
 
-### **5.2.4 Archived Chain Replay and Open Ended manifest chains** 
+### 5.2.4 Archived Chain Replay and Open Ended manifest chains 
 
 An adversary might attempt to resurrect a historically archived Manifest Chain following a successful rollover event. In this scenario, the attacker takes the archived chain and initializes (`event: init`) a counterfeit version of a manifest that was previously tracked, introducing substantial regressions or malicious alterations into the compromised version. Because the archived chain was mathematically valid up to the point of its rollover, an isolated, purely offline parser might be tricked into accepting the open-ended chain's newly appended blocks as a legitimate continuation.
 
@@ -717,7 +717,7 @@ To mitigate this threat, implementations MUST enforce strict rollover boundary v
 * **Most Recent Point Resolution:** If a parser, CI/CD/CA pipeline, or registry queries multiple anchoring targets (e.g., evaluating both the local `chain_sig.yaml` and a Sigstore Rekor inclusion proof), it MUST only recognize the absolute most recent mathematically valid `meta_hash` across all queried targets as the true anchor point. All older states MUST be considered superseded.  
 * **Terminal Rejection:** Parsers and registries MUST strictly track the active status of the chain against this single anchor point. If a verifier observes a transaction appended to a Manifest Chain whose terminal `meta_hash` has already been superseded by the recognized anchor point, it MUST instantly instantiate a critical error and halt execution, permanently rejecting the open ended manifest chain.
 
-### **5.2.5 CI/CD/CA Pipeline Bypass and Tampering**
+### 5.2.5 CI/CD/CA Pipeline Bypass and Tampering
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
 
@@ -732,7 +732,7 @@ To guarantee that the manifest chain checks and appends succeed before any code 
 
 By enforcing these boundaries, malicious actors are physically incapable of skipping the verification, forging the `data_hash`, or modifying the chain's chronological history, ensuring a zero-trust continuous attestation pipeline.
 
-## **5.3 Autonomous Agent Risk Mitigation and Deterministic Gating**
+## 5.3 Autonomous Agent Risk Mitigation and Deterministic Gating
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
 
@@ -749,11 +749,11 @@ To contain the risk of autonomous configuration drift, implementations of the Co
 
 By replacing probabilistic AI scanning with a deterministic cryptographic consistent gate, organizations can safely leverage autonomous engineering velocity while maintaining a mathematically defensive timeline that allows for immediate, automated rollbacks when an agent introduces a vulnerable component.
 
-## **5.4 IANA Considerations**
+## 5.4 IANA Considerations
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
 
-### **5.4.1 Media Type Registration** 
+### 5.4.1 Media Type Registration 
 
 To ensure that HTTP transport layers, distribution platforms, and continuous integration engines can unambiguously identify a Manifest Chain file, implementations SHOULD utilize a registered IANA Media Type.
 
@@ -762,7 +762,7 @@ To ensure that HTTP transport layers, distribution platforms, and continuous int
 * **Required parameters:** None.  
 * **Encoding considerations:** 8bit (UTF-8 strictly required for all string primitives).
 
-### **5.4.2 ORAS Artifact Type Registration** 
+### 5.4.2 ORAS Artifact Type Registration 
 
 When utilizing the Bundled OCI Artifact architecture (Section 4.2) to bind the Manifest Chain to an OCI image via the ORAS Artifact Manifest, the file MUST be differentiated using a registered `artifactType`.
 
