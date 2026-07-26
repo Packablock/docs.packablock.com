@@ -93,7 +93,53 @@ body {
       text-decoration: none;
     }
   }
+
+  .github-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: $dark-navy; // Brand Navy
+    color: #FFFFFF !important;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    vertical-align: middle;
+
+    .github-icon {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    &:hover {
+      background-color: #0E9AA8 !important; // Deep Teal
+      color: #FFFFFF !important;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
 }
+
+@media (min-width: 600px) {
+  .site-nav {
+    .github-badge {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 15px;
+    }
+  }
+}
+
 
 .site-footer {
   background-color: #FFFFFF !important;
