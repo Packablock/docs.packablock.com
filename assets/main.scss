@@ -435,6 +435,18 @@ html[data-theme="dark"] {
     color: var(--text-color);
   }
   
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 2em auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  
   ul, ol {
     margin-bottom: 1.5em;
   }
