@@ -233,3 +233,109 @@ body {
     border-radius: 0 8px 8px 0;
   }
 }
+
+// Table of Contents styling (Inline card by default, floating on wide screens)
+#markdown-toc {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 20px 20px 20px 35px;
+  margin: 2em 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  list-style-type: decimal;
+
+  li {
+    margin-bottom: 0.4em;
+    color: #475569;
+    
+    a {
+      color: #0E9AA8;
+      font-weight: 500;
+      border-bottom: none;
+      
+      &:hover {
+        color: #0A727C;
+        text-decoration: underline;
+        background-color: transparent;
+      }
+    }
+  }
+
+  // Nested lists inside TOC
+  ul {
+    list-style-type: circle;
+    margin-left: 20px;
+    margin-top: 0.4em;
+    padding-left: 0;
+    
+    li {
+      margin-bottom: 0.3em;
+      font-size: 0.9em;
+    }
+  }
+}
+
+// Float TOC to the right of centered content on wide screens
+@media (min-width: 1280px) {
+  #markdown-toc {
+    position: fixed;
+    top: 140px;
+    left: calc(50% + 400px);
+    width: 260px;
+    max-height: 75vh;
+    overflow-y: auto;
+    background-color: transparent;
+    border: none;
+    border-left: 2px solid #E2E8F0;
+    border-radius: 0;
+    padding: 0 0 0 20px;
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    list-style-type: none;
+    z-index: 90;
+    box-shadow: none;
+
+    li {
+      margin-bottom: 0.6em;
+      
+      a {
+        color: #475569;
+        font-weight: 400;
+        transition: color 0.2s ease, border-left-color 0.2s ease;
+        
+        &:hover {
+          color: #0E9AA8;
+          text-decoration: none;
+        }
+      }
+    }
+
+    ul {
+      list-style-type: none;
+      margin-left: 15px;
+      margin-top: 0.4em;
+      
+      li {
+        margin-bottom: 0.4em;
+        font-size: 0.95em;
+      }
+    }
+    
+    // Add scrollbar styling for floating TOC
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  }
+}

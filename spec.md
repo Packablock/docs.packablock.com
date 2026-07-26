@@ -12,6 +12,11 @@ permalink: /spec/
 
 *This specification essentially describes a log file format with advanced capabilities. Its guiding principles include easy adoption, rapid risk identification, continuous improvement, and high degrees of automation and extensibility.*
 
+## Table of Contents
+{: .no_toc}
+
+* TOC
+{:toc}
 
 # 1\. Introduction and Architectural Concepts
 
