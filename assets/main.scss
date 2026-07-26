@@ -70,10 +70,12 @@ $grey-color-dark: #334155;   // Slate-700 for secondary text
 
   --title-color: #0E1B2E;
   --title-hover-color: #0E9AA8;
-  --icon-bg: #22D3EE;                // Vibrant Teal center
-  --icon-shadow: #0E9AA8;            // Deep Teal caps (decoupled from Navy text)
-  --icon-hover-bg: #0E9AA8;          // Deep Teal center on hover
-  --icon-hover-shadow: #0E1B2E;      // Brand Navy caps on hover
+  --cursor-bg: #0E1B2E;              // Brand Navy cursor background block
+  --cursor-hover-bg: #0E9AA8;        // Deep Teal cursor background block on hover
+  --icon-bg: #22D3EE;                // Vibrant Teal candlestick center line
+  --icon-shadow: #FFFFFF;            // White candlestick caps
+  --icon-hover-bg: #FFFFFF;          // White candlestick center line on hover
+  --icon-hover-shadow: #22D3EE;      // Vibrant Teal candlestick caps on hover
 }
 
 html[data-theme="dark"] {
@@ -122,10 +124,12 @@ html[data-theme="dark"] {
 
   --title-color: #FFFFFF;
   --title-hover-color: #22D3EE;
-  --icon-bg: #22D3EE;                // Vibrant Teal center
-  --icon-shadow: #0E9AA8;            // Deep Teal caps (decoupled from White text)
-  --icon-hover-bg: #FFFFFF;          // White center on hover
-  --icon-hover-shadow: #0E9AA8;      // Deep Teal caps on hover
+  --cursor-bg: rgba(255, 255, 255, 0.08); // Subtle translucent block
+  --cursor-hover-bg: rgba(34, 211, 238, 0.18); // Translucent teal block on hover
+  --icon-bg: #22D3EE;                // Vibrant Teal candlestick center line
+  --icon-shadow: #FFFFFF;            // White candlestick caps
+  --icon-hover-bg: #FFFFFF;          // White candlestick center line on hover
+  --icon-hover-shadow: #22D3EE;      // Vibrant Teal candlestick caps on hover
 }
 
 // 3. Custom CSS Overrides using variables
@@ -165,17 +169,30 @@ body {
   gap: 8px;
   transition: opacity 0.2s ease, color 0.2s ease;
   
-  // Custom brand accent candlestick indicator
+  // Custom brand accent candlestick indicator inside a terminal cursor block
   &::before {
     content: '';
     display: inline-block;
-    width: 6px;
-    height: 16px;
-    background-color: var(--icon-bg);
-    border-radius: 2px;
-    box-shadow: 0 -3px 0 0 var(--icon-shadow), 0 3px 0 0 var(--icon-shadow);
+    width: 16px;
+    height: 24px;
+    background-image: 
+      linear-gradient(var(--icon-shadow), var(--icon-shadow)), /* Top Cap */
+      linear-gradient(var(--icon-shadow), var(--icon-shadow)), /* Bottom Cap */
+      linear-gradient(var(--icon-bg), var(--icon-bg));         /* Center line */
+    background-size: 
+      6px 2px,
+      6px 2px,
+      2px 12px;
+    background-position: 
+      5px 4px,
+      5px 18px,
+      7px 6px;
+    background-repeat: no-repeat;
+    background-color: var(--cursor-bg);
+    border-radius: 3px;
     margin-right: 4px;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    vertical-align: middle;
+    transition: background-color 0.2s ease, transform 0.15s ease;
   }
 
   &:hover {
@@ -183,8 +200,11 @@ body {
     text-decoration: none;
     
     &::before {
-      background-color: var(--icon-hover-bg);
-      box-shadow: 0 -3px 0 0 var(--icon-hover-shadow), 0 3px 0 0 var(--icon-hover-shadow);
+      background-image: 
+        linear-gradient(var(--icon-hover-shadow), var(--icon-hover-shadow)),
+        linear-gradient(var(--icon-hover-shadow), var(--icon-hover-shadow)),
+        linear-gradient(var(--icon-hover-bg), var(--icon-hover-bg));
+      background-color: var(--cursor-hover-bg);
     }
   }
 }
