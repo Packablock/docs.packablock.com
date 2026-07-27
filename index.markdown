@@ -71,35 +71,81 @@ pkablk check packablock.yaml --server https://api.packablock.com --token reg_tok
 
 ## 🚀 Usage
 
-Manage your trust chain directly alongside your codebase using the following workflow:
+Manage your trust chain using one of the three integration patterns below:
 
-### 1. Initialize the Trust Chain
-Scan your existing project lockfile to initialize a new genesis block in `packablock.yaml`:
+<div class="usage-tabs">
+  <div class="tab-buttons">
+    <button class="tab-button active" onclick="switchTab(event, 'trust-registry-api')">Trust Registry API</button>
+    <button class="tab-button" onclick="switchTab(event, 'sentinel-mode')">Sentinel Mode</button>
+    <button class="tab-button" onclick="switchTab(event, 'oci-mode')">OCI Mode</button>
+  </div>
 
-```bash
-pkablk init packablock.yaml -l package-lock.json
-```
+  <div id="trust-registry-api" class="tab-content active">
+    <p>Manage your trust chain dynamically using local commands and verify dependency blocks against a centralized Packablock Trust Registry server.</p>
 
-### 2. Update Your Dependencies
-Install or upgrade packages as you normally would:
+    <h3>1. Initialize the Trust Chain</h3>
+    <p>Scan your existing project lockfile to initialize a new genesis block in <code>packablock.yaml</code>:</p>
+    <pre><code class="language-bash">pkablk init packablock.yaml -l package-lock.json</code></pre>
 
-```bash
-npm install lodash@4.17.21
-```
+    <h3>2. Update Your Dependencies</h3>
+    <p>Install or upgrade packages as you normally would:</p>
+    <pre><code class="language-bash">npm install lodash@4.17.21</code></pre>
 
-### 3. Append the Changes to the Chain
-Capture the delta between the previous block and the updated lockfile, generating a new cryptographically linked block:
+    <h3>3. Append the Changes to the Chain</h3>
+    <p>Capture the delta between the previous block and the updated lockfile, generating a new cryptographically linked block:</p>
+    <pre><code class="language-bash">pkablk append packablock.yaml -l package-lock.json</code></pre>
 
-```bash
-pkablk append packablock.yaml -l package-lock.json
-```
+    <h3>4. Verify Chain Integrity</h3>
+    <p>Ensure no block in the historical chain has been altered or compromised against the remote registry:</p>
+    <pre><code class="language-bash">pkablk check packablock.yaml --server https://api.packablock.com --token reg_token_123</code></pre>
+  </div>
 
-### 4. Verify Chain Integrity
-Ensure no block in the historical chain has been altered or compromised:
+  <div id="sentinel-mode" class="tab-content">
+    <p>Store and track your trust chain in an isolated, secure repository branch (e.g. <code>secops/manifest-chain</code>) to prevent developers from directly modifying the manifest files, and run validation gates on your main code branch.</p>
 
-```bash
-pkablk check packablock.yaml
-```
+    <h3>1. Fetch and Checkout the Sentinel Branch Manifest</h3>
+    <p>Retrieve the latest verified trust chain manifest from the isolated branch:</p>
+    <pre><code class="language-bash">git fetch origin secops/manifest-chain:secops/manifest-chain
+git show secops/manifest-chain:packablock.yaml > temp_manifest.yaml</code></pre>
+
+    <h3>2. Verify Current Lockfile Against Manifest</h3>
+    <p>Ensure your local branch lockfile matches the active Sentinel manifest chain:</p>
+    <pre><code class="language-bash">pkablk check temp_manifest.yaml --compare-with package-lock.json</code></pre>
+
+    <h3>3. Append Lockfile Updates</h3>
+    <p>Append the package changes to your temporary manifest local file:</p>
+    <pre><code class="language-bash">pkablk append temp_manifest.yaml -l package-lock.json</code></pre>
+
+    <h3>4. Commit and Push Back to Sentinel Branch</h3>
+    <p>Merge the updated trust chain block back into the secure side branch:</p>
+    <pre><code class="language-bash">git checkout secops/manifest-chain
+cp temp_manifest.yaml packablock.yaml
+git add packablock.yaml
+git commit -m "chore(attestation): append dependency updates to Sentinel chain"
+git push origin secops/manifest-chain</code></pre>
+  </div>
+
+  <div id="oci-mode" class="tab-content">
+    <p>Treat your dependency trust chain as a secure OCI artifact and publish it directly to a container registry like GitHub Container Registry (GHCR) to enforce decentralized package trust gates across multiple environments.</p>
+
+    <h3>1. Authenticate with GitHub Container Registry</h3>
+    <p>Login to GHCR using your secure deployment credentials:</p>
+    <pre><code class="language-bash">echo ${GITHUB_TOKEN} | oras login ghcr.io -u ${GITHUB_ACTOR} --password-stdin</code></pre>
+
+    <h3>2. Pull the Latest Trust Chain Artifact</h3>
+    <p>Download the latest verified manifest chain from your GHCR repository:</p>
+    <pre><code class="language-bash">oras pull ghcr.io/packablock/my-repo/manifest-chain:latest</code></pre>
+
+    <h3>3. Audit Local Lockfile and Append Changes</h3>
+    <p>Audit your local project status against the OCI manifest, and write the updated block:</p>
+    <pre><code class="language-bash">pkablk check manifest_chain.yaml --compare-with package-lock.json
+pkablk append manifest_chain.yaml -l package-lock.json</code></pre>
+
+    <h3>4. Push the Updated Manifest to GHCR</h3>
+    <p>Publish the new trust chain artifact back to your OCI repository registry:</p>
+    <pre><code class="language-bash">oras push ghcr.io/packablock/my-repo/manifest-chain:latest manifest_chain.yaml:application/yaml</code></pre>
+  </div>
+</div>
 
 ---
 

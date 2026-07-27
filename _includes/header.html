@@ -66,6 +66,24 @@
 </div>
 
 <script>
+  // Tab switcher helper
+  function switchTab(evt, tabId) {
+    const container = evt.currentTarget.closest('.usage-tabs');
+    if (!container) return;
+
+    // Deactivate all tab buttons in this container
+    container.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    // Deactivate all tab contents in this container
+    container.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+    // Activate selected button and target tab content
+    evt.currentTarget.classList.add('active');
+    const targetContent = container.querySelector('#' + tabId);
+    if (targetContent) {
+      targetContent.classList.add('active');
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     // Theme toggle
     const toggleButton = document.getElementById('theme-toggle');
