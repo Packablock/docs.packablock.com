@@ -668,6 +668,43 @@ To mitigate the risk of unbounded dependencies without abruptly halting developm
 
 By enforcing these constraint warnings, the architecture proactively identifies non-deterministic supply chain vulnerabilities before they result in compromised production deployments, guiding developers toward strict dependency pinning.
 
+## 4.7 Policy Control Schema and Enforcement Specification
+
+To facilitate automated, preventative gating across software supply chains, implementations of this specification SHOULD support the execution of a deterministic Policy Engine. The Policy Engine evaluates parsed Manifest Chains against a structured policy document.
+
+### 4.7.1 Policy Document Hierarchy
+
+Policies MUST be structured in YAML or JSON format and support evaluation at three distinct levels of organizational boundaries:
+1. **Organization Level (Global Gate):** Defined at the enterprise or Git organization level (e.g., in a central `.github` repository or via registry configuration) applying globally.
+2. **Repository Level (Project Gate):** Defined within the target repository (e.g., `.packablock/policy.yaml`). Enables repository owners to configure custom rules or override warning states.
+3. **Manifest Level (Targeted Gate):** Targets specific package ecosystems or lockfile manifests within a project, matched using standard selectors.
+
+### 4.7.2 Formal Policy Schema (Normative)
+
+The Policy Engine MUST parse and enforce rules complying with the following schema:
+
+```yaml
+version: "v1"
+rules:
+  - name: String         # Unique identifier for the rule
+    level: String        # Severity: "error" (halts builds) or "warn" (logs warning)
+    target: String       # Target of evaluation: "manifest", "package", or "chain"
+    selector:            # Optional filters to narrow evaluation scope
+      ecosystems: [String]  # e.g., ["npm", "rubygems"]
+      manifests: [String]   # e.g., ["package-lock.json"]
+    condition:           # Conditional constraints evaluated by the parser
+      operator_is: [String]      # Flags specific SemVer operators (e.g., [">=", "*"])
+      max_drift_days: Integer    # Maximum age delta before warning on version drift
+      allow_forget: Boolean      # Whether to block 'forget' lifecycle events
+      message: String            # Error message displayed upon violation
+```
+
+### 4.7.3 Evaluation and Pipeline Enforcement
+
+When a verification client (such as the `pkablk` CLI) or a registry server performs an audit:
+* **Rule Selection:** The validation engine MUST load and combine Organization-level and Repository-level policy files. If there is a conflict, Organization-level rules marked with strict severity MUST override Repository-level exceptions.
+* **Failure Actions:** If any policy rule of level `error` evaluates to true during chain verification, the parser MUST immediately halt execution, return a non-zero exit status, and prevent CI/CD progression.
+
 # 5\. Extensibility and Security
 
 To maintain structural clarity and interoperation standard parity, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this section are to be interpreted as described in RFC 2119\.
