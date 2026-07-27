@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Packablock Client
-        run: npm install -g packablock-client
+        run: curl -fsSL https://raw.githubusercontent.com/Packablock/packablock-client/dev/scripts/install.sh | sh
 
       - name: Verify Dependency Chain Against Registry
         run: |
