@@ -134,7 +134,7 @@ git push origin secops/manifest-chain</code></pre>
 
     <h3>2. Pull the Latest Trust Chain Artifact</h3>
     <p>Download the latest verified manifest chain from your GHCR repository:</p>
-    <pre><code class="language-bash">oras pull ghcr.io/packablock/my-repo/manifest-chain:latest</code></pre>
+    <pre><code class="language-bash">oras pull ghcr.io/your_github_org/my-repo/manifest-chain:latest</code></pre>
 
     <h3>3. Audit Local Lockfile and Append Changes</h3>
     <p>Audit your local project status against the OCI manifest, and write the updated block:</p>
@@ -143,7 +143,7 @@ pkablk append manifest_chain.yaml -l package-lock.json</code></pre>
 
     <h3>4. Push the Updated Manifest to GHCR</h3>
     <p>Publish the new trust chain artifact back to your OCI repository registry:</p>
-    <pre><code class="language-bash">oras push ghcr.io/packablock/my-repo/manifest-chain:latest manifest_chain.yaml:application/yaml</code></pre>
+    <pre><code class="language-bash">oras push ghcr.io/your_github_org/my-repo/manifest-chain:latest manifest_chain.yaml:application/yaml</code></pre>
   </div>
 </div>
 
