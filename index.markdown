@@ -195,6 +195,74 @@ eslint            <span class="term-red">No</span>       ^8.40.0     <span class
 
 ---
 
+## 🛡️ Policy Control Configuration
+
+Packablock allows organizations to define deterministic security gates to audit dependencies and prevent vulnerability ingestion. Policies are specified in a `packablock.policy.yaml` configuration file and can be set up at three distinct levels of granularity:
+
+### 1. 🏢 Organization-Level Policies (Global Gate)
+To enforce policies globally across all repositories in the organization, save the policy file within your central `.github` repository:
+```markdown
+[org-profile-repo]/.github/packablock.policy.yaml
+```
+The central Packablock Registry automatically ingests this global configuration, applying it as a baseline evaluation gate for all repository logs pushed to the server.
+
+### 2. 📦 Repository-Level Policies (Project Gate)
+To define project-specific rules, place the policy file in a hidden directory at the root of your repository:
+```markdown
+[project-repo]/.packablock/policy.yaml
+```
+This enables repository administrators to override or supplement global organization policies (e.g., enforcing tighter version drift constraints on sensitive microservices).
+
+### 3. 📄 Manifest-Specific Policies (Targeted Gate)
+Within any policy file, rules can target specific package ecosystems or lockfile manifests by utilizing the `selector` key:
+```yaml
+rules:
+  - name: "prevent-npm-infinite-operators"
+    level: "error"
+    target: "manifest"
+    selector:
+      manifests: ["package-lock.json"]  # Targets only npm lockfiles
+    condition:
+      operator_is: [">=", "*"]
+      message: "Unbounded version operators (>=, *) are disallowed in Node.js dependencies."
+```
+
+### 📜 Example Policy Schema (`packablock.policy.yaml`)
+
+```yaml
+version: "v1"
+rules:
+  # Block dangerous open-ended SemVer operators
+  - name: "no-open-ended-operators"
+    level: "error"
+    target: "manifest"
+    selector:
+      ecosystems: ["npm", "bun", "rubygems"]
+    condition:
+      operator_is: [">=", "*"]
+      message: "Open-ended version operators are disallowed under security policy."
+
+  # Flag version drift and technical debt (warn if older than 180 days)
+  - name: "version-drift-limit"
+    level: "warn"
+    target: "package"
+    selector:
+      manifests: ["package-lock.json", "Gemfile.lock"]
+    condition:
+      max_drift_days: 180
+      message: "Package drift exceeds 6 months threshold."
+
+  # Block pruning history logs
+  - name: "never-forget-history"
+    level: "error"
+    target: "chain"
+    condition:
+      allow_forget: false
+      message: "Deleting or pruning attestation history is blocked."
+```
+
+---
+
 ## 🤝 Contributing
 
 Packablock is an open-source standard. We welcome specifications feedback, parser improvements, and registry suggestions. 
