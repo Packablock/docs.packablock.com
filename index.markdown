@@ -18,20 +18,15 @@ Packablock natively parses lockfiles and packages to build and audit mathematica
 * **Yarn** (`yarn.lock` v1 classic format)
 * **Bun** (`bun.lockb` via yarn format, and Bun 1.2+ JSON lockfiles)
 * **Ruby Bundler** (`Gemfile.lock`)
-* **Packablock Trust Chain** (`packablock.yaml`)
 
 ---
 
 ## 🛠️ Installation
 
-Install the Packablock command-line client (`pkablk`) globally via `npm` or `bun`:
+Install the Packablock command-line client (`pkablk`) via the official installation script:
 
 ```bash
-# Using npm
-npm install -g packablock-client
-
-# Using bun
-bun add -g packablock-client
+curl -fsSL https://raw.githubusercontent.com/Packablock/packablock-client/dev/scripts/install.sh | sh
 ```
 
 ### 🤖 GitHub Actions CI/CD Integration
