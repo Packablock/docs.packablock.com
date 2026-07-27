@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Packablock Documentation
+title: Packablock Docs
 email: support@packablock.com
 description: >-
   Official documentation for the Packablock Supply Chain Trust Registry.
@@ -29,6 +29,11 @@ github_username:  Packablock
 
 # Build settings
 theme: minima
+
+# Primary navigation pages order
+header_pages:
+  - index.markdown
+  - spec.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.
