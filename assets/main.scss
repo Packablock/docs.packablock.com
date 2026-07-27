@@ -775,3 +775,82 @@ html[data-theme="dark"] {
     }
   }
 }
+
+/* Terminal Mockup Styles */
+.terminal-mockup {
+  margin: 2.5em 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: #0B132B !important; // Absolute dark terminal background
+  transition: border-color 0.2s ease;
+
+  .terminal-header {
+    background-color: #1C2541; // Contrast header
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .terminal-buttons {
+    display: flex;
+    gap: 6px;
+    position: absolute;
+    left: 15px;
+
+    .btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+
+      &.close { background-color: #EF4444; }
+      &.minimize { background-color: #F59E0B; }
+      &.expand { background-color: #10B981; }
+    }
+  }
+
+  .terminal-title {
+    color: #8592B0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+  }
+
+  .terminal-body {
+    padding: 20px;
+    margin: 0;
+    overflow-x: auto;
+
+    pre {
+      background: none !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+    }
+
+    code {
+      background: none !important;
+      border: none !important;
+      padding: 0 !important;
+      color: #E2E8F0 !important;
+      font-size: 0.825rem;
+      line-height: 1.5;
+    }
+
+    // Color helpers inside terminal
+    .term-bold { font-weight: 700; color: #FFFFFF; }
+    .term-dim { color: #5C677D; }
+    .term-green { color: #10B981; }
+    .term-yellow { color: #F59E0B; }
+    .term-red { color: #EF4444; }
+    .term-cyan { color: #06B6D4; }
+    .term-blue { color: #3B82F6; }
+  }
+}

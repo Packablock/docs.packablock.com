@@ -147,6 +147,52 @@ pkablk append manifest_chain.yaml -l package-lock.json</code></pre>
   </div>
 </div>
 
+### 💻 CLI Visualizations & Audit Reports
+
+Running an audit check on your dependencies with the `--visualize` flag renders a detailed **SemVer Candle Chart** mapping pinned versions against constraints and upstream releases, highlighting security warnings and policy violations:
+
+<div class="terminal-mockup">
+  <div class="terminal-header">
+    <div class="terminal-buttons">
+      <span class="btn close"></span>
+      <span class="btn minimize"></span>
+      <span class="btn expand"></span>
+    </div>
+    <div class="terminal-title">bash — pkablk audit</div>
+  </div>
+  <div class="terminal-body">
+    <pre><code><span class="term-bold">🔍 Packablock Supply Chain Velocity Audit</span>
+Target: /home/aaron/dev/my-project
+Registry Anchor: https://api.packablock.com
+Status: <span class="term-green term-bold">SECURELY ANCHORED (14 Blocks Aligned)</span>
+
+<span class="term-bold">## SemVer Candle Analysis (Lockfile Lifecycle)</span>
+Legend:
+  | : Min/Max Constraint Boundary   ░ : Historical Drift (First seen -> Pinned)
+  ● : Current Pinned Version        ═ : Unused Allowed Range (Upstream Available)
+  ► : Extension to Infinity (>=)
+
+### Manifest: package.json
+<span class="term-dim">--------------------------------------------------------------------------------</span>
+Package Name      Tracked  Constraint  Timeline (Low -> Pinned -> Upstream -> Max)
+<span class="term-dim">--------------------------------------------------------------------------------</span>
+lodash            <span class="term-green">Yes</span>      ^4.17.0     <span class="term-cyan">|</span><span class="term-dim">░░░░░</span><span class="term-yellow">●</span><span class="term-dim">════════════════════════════════════</span><span class="term-cyan">|</span>
+fastify           <span class="term-green">Yes</span>      ^4.20.0     <span class="term-cyan">|</span><span class="term-dim">-----░░░</span><span class="term-yellow">●</span><span class="term-dim">════════════════════════════════</span><span class="term-cyan">|</span>
+typescript        <span class="term-green">Yes</span>      >=5.0.0     <span class="term-cyan">|</span><span class="term-dim">-----░░░░░░</span><span class="term-red">●</span><span class="term-dim">============================</span><span class="term-red">►</span>
+eslint            <span class="term-red">No</span>       ^8.40.0     <span class="term-cyan">|</span><span class="term-dim">░░░░░░░░░░░░░</span><span class="term-green">●</span><span class="term-dim">══════════════════════════</span><span class="term-cyan">|</span>
+<span class="term-dim">--------------------------------------------------------------------------------</span>
+
+<span class="term-bold term-yellow">Warn:</span>
+  <span class="term-red">Open Fuse (>= Risk):</span> typescript
+  <span class="term-yellow">Technical Debt Wall:</span> lodash, fastify
+
+<span class="term-bold">Info:</span>
+  <span class="term-green">Fully Up-To-Date:</span> eslint
+
+<span class="term-yellow">Tip: Register this log to a Packablock registry to enable automated enterprise security policies and webhook alerts.</span></code></pre>
+  </div>
+</div>
+
 ---
 
 ## 🤝 Contributing
