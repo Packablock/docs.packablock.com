@@ -607,7 +607,7 @@ Following the loading failure principles of the YAML 1.2.2 specification, a pars
 
 As software supply chains scale, applications frequently rely on hundreds or thousands of dependencies. Requiring a localized parsing engine to recursively download and sequentially evaluate the full Manifest Chain, detached anchors, and build provenance for every single dependency introduces unacceptable latency into high-velocity CI/CD/CA pipelines and developer installations.
 
-To resolve this performance bottleneck without sacrificing zero-trust mathematical guarantees, implementations of this specification SHOULD support the generation and ingestion of **Verification Summary Attestations (VSA)**.
+To resolve this performance bottleneck without sacrificing deterministic mathematical guarantees, implementations of this specification SHOULD support the generation and ingestion of **Verification Summary Attestations (VSA)**.
 
 ### 4.4.1 Definition and Purpose
 
@@ -726,7 +726,7 @@ If an implementation chooses to support custom extension fields within the `$man
 
 ## 5.2 Security Considerations and Threat Model
 
-The Manifest Chain serves as a zero-trust cryptographic manifest chain. Implementations MUST evaluate the following supply chain threats and ensure their parsing engines are configured to mitigate them.
+The Manifest Chain serves as a deterministic cryptographic manifest chain. Implementations MUST evaluate the following supply chain threats and ensure their parsing engines are configured to mitigate them.
 
 ### 5.2.1 Provenance and Hash Forgery 
 
