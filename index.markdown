@@ -6,7 +6,7 @@ permalink: /
 
 # Packablock Documentation
 
-Packablock is a zero-trust package attestation registry. It generates and verifies cryptographically secured parallel package history chains to defend against software supply chain attacks and package tampering.
+Packablock is a deterministic package attestation registry. It generates and verifies cryptographically secured parallel package history chains to defend against software supply chain attacks and package tampering.
 
 ---
 
@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/Packablock/packablock-client/dev/sc
 To guarantee package integrity automatically on every build, run `pkablk check` inside your GitHub Actions workflows:
 
 ```yaml
-name: Zero-Trust Supply Chain Verification
+name: Deterministic Supply Chain Verification
 
 on:
   push:

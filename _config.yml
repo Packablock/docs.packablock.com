@@ -21,7 +21,7 @@
 title: Packablock Docs
 email: support@packablock.com
 description: >-
-  Official documentation for Packablock Zero-Trust Supply Chain Policy Control.
+  Official documentation for Packablock Deterministic Supply Chain Policy Control.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://docs.packablock.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: packablock
