@@ -132,6 +132,11 @@ html[data-theme="dark"] {
   --icon-hover-shadow: #22D3EE;      // Vibrant Teal candlestick caps on hover
 }
 
+html {
+  scroll-padding-top: 80px;
+  scroll-behavior: smooth;
+}
+
 // 3. Custom CSS Overrides using variables
 body {
   font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
