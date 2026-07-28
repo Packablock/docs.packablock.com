@@ -767,7 +767,7 @@ To guarantee that the manifest chain checks and appends succeed before any code 
 * **Hardened Execution Environments:** To prevent user-defined build steps from attempting to overwrite the local `manifest_chain.yaml` history or fake the data hash, the pipeline MUST run the verification wrapper inside a hardened, isolated container. Following SLSA Build Level 3 requirements, the build platform **MUST prevent secret material used to sign the provenance from being accessible to the user-defined build steps**.  
 * **Ephemeral Identity and Shadow manifest chains:** The runner SHOULD NOT utilize long-lived cryptographic keys stored as repository secrets. Instead, the runner MUST request a short-lived OpenID Connect (OIDC) token to authenticate the block append, streaming the new state directly to a transparency log or Policy Registry. To absolutely physically separate the manifest chain from developer control, implementations MAY employ a "Shadow manifest chain" pattern, performing a dual-checkout where the `manifest_chain.yaml` resides on a strictly protected branch isolated from the `main` source code.
 
-By enforcing these boundaries, malicious actors are physically incapable of skipping the verification, forging the `data_hash`, or modifying the chain's chronological history, ensuring a zero-trust continuous attestation pipeline.
+By enforcing these boundaries, malicious actors are physically incapable of skipping the verification, forging the `data_hash`, or modifying the chain's chronological history, ensuring a deterministic continuous attestation pipeline.
 
 ## 5.3 Autonomous Agent Risk Mitigation and Deterministic Gating
 
