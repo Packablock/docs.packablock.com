@@ -556,11 +556,11 @@ html[data-theme="dark"] {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 20px 20px 20px 35px;
+  padding: 20px;
   margin: 2em 0;
   font-size: 0.95rem;
   line-height: 1.6;
-  list-style-type: decimal;
+  list-style-type: none;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
   li {
@@ -582,8 +582,8 @@ html[data-theme="dark"] {
 
   // Nested lists inside TOC
   ul {
-    list-style-type: circle;
-    margin-left: 20px;
+    list-style-type: none;
+    margin-left: 15px;
     margin-top: 0.4em;
     padding-left: 0;
     
