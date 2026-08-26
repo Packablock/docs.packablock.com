@@ -819,7 +819,7 @@ html[data-theme="dark"] {
   }
 
   .terminal-title {
-    color: #8592B0;
+    color: #CBD5E1; // Increased contrast for WCAG accessibility (10.13:1 on #1C2541)
     font-size: 0.75rem;
     font-weight: 600;
     width: 100%;
@@ -850,7 +850,7 @@ html[data-theme="dark"] {
 
     // Color helpers inside terminal
     .term-bold { font-weight: 700; color: #FFFFFF; }
-    .term-dim { color: #5C677D; }
+    .term-dim { color: #94A3B8; } // Increased contrast for WCAG accessibility (7.11:1 on #0B132B)
     .term-green { color: #10B981; }
     .term-yellow { color: #F59E0B; }
     .term-red { color: #EF4444; }
