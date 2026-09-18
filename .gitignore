@@ -3,3 +3,8 @@ _site
 .jekyll-cache
 .jekyll-metadata
 vendor
+
+# Ignore local environment variables
+.env
+.env.*
+.env.local
