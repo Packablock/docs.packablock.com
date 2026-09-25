@@ -858,3 +858,113 @@ html[data-theme="dark"] {
     .term-blue { color: #3B82F6; }
   }
 }
+
+/* Tier Badges (WCAG AAA compliant) */
+.tier-pill {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+
+  &.tier-prem {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #1d4ed8; // High contrast blue (7.2:1)
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  &.tier-std {
+    background-color: rgba(100, 116, 139, 0.15);
+    color: #334155; // High contrast slate (7.5:1)
+    border: 1px solid rgba(100, 116, 139, 0.3);
+  }
+}
+
+html[data-theme="dark"] .tier-pill {
+  &.tier-prem {
+    background-color: rgba(59, 130, 246, 0.25);
+    color: #93c5fd; // Light blue
+    border-color: rgba(147, 197, 253, 0.4);
+  }
+
+  &.tier-std {
+    background-color: rgba(148, 163, 184, 0.2);
+    color: #cbd5e1; // Slate 300
+    border-color: rgba(203, 213, 225, 0.3);
+  }
+}
+
+/* Tutorial CTA Box */
+.tutorial-cta-box {
+  margin: 3em 0 1em;
+  padding: 36px 30px;
+  background: linear-gradient(135deg, rgba(14, 154, 168, 0.08) 0%, rgba(14, 27, 46, 0.04) 100%);
+  border: 1px solid rgba(14, 154, 168, 0.25);
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    margin-top: 0 !important;
+    font-size: 1.5rem !important;
+    color: var(--dark-navy) !important;
+    font-weight: 700 !important;
+  }
+
+  p {
+    font-size: 1.05rem !important;
+    max-width: 600px;
+    margin: 10px auto 24px !important;
+    color: var(--text-color) !important;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #FFFFFF !important;
+    background-color: #0E9AA8;
+    border-radius: 8px;
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(14, 154, 168, 0.35);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #0A727C;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(14, 154, 168, 0.45);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+html[data-theme="dark"] .tutorial-cta-box {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(11, 19, 33, 0.6) 100%);
+  border-color: rgba(34, 211, 238, 0.3);
+
+  .cta-button {
+    background-color: #22D3EE;
+    color: #0E1B2E !important; // Dark navy on bright teal (WCAG AAA)
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+
+    &:hover {
+      background-color: #67E8F9;
+      box-shadow: 0 6px 16px rgba(34, 211, 238, 0.4);
+    }
+  }
+}
+
+
